@@ -1,0 +1,5 @@
+:root {
+  --color-base: #00674F;     /* Dark Green - Good for headers, primary backgrounds */
+  --color-neutral: #FDFBD4;  /* Cream - Excellent for main body backgrounds or text */
+  --color-accent: #8E4585;   /* Plum - Perfect for the lever handle, active states, and buttons */
+}
