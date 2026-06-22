@@ -23,7 +23,7 @@
       />
       
       <section class="content-display">
-        <transition name="fade" mode="out-in">
+        <transition name="reel" mode="out-in">
           <component :is="currentComponent" />
         </transition>
       </section>
@@ -175,6 +175,8 @@ body {
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 103, 79, 0.1);
+  position: relative; 
+  overflow: hidden;
 }
 
 .content-display h2 {
@@ -182,12 +184,26 @@ body {
   margin-top: 0;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.15s ease;
+/* --- The Jackpot Reel Transition --- */
+.reel-enter-active {
+  /* The cubic-bezier adds that heavy mechanical 'thunk' and slight bounce at the end */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15); 
 }
-.fade-enter-from,
-.fade-leave-to {
+
+.reel-leave-active {
+  /* The old content snaps away very quickly to simulate a fast spin */
+  transition: all 0.15s ease-in; 
+}
+
+.reel-enter-from {
   opacity: 0;
+  transform: translateY(-60px); /* Drops in from above */
+  filter: blur(6px); /* Motion blur for high-speed effect */
+}
+
+.reel-leave-to {
+  opacity: 0;
+  transform: translateY(60px); /* Drops out below */
+  filter: blur(6px);
 }
 </style>
