@@ -14,8 +14,45 @@
 </template>
 
 <style scoped>
-.section-content h2 { color: var(--color-accent); margin-top: 0; }
-.experience-block h3 { color: var(--color-base); margin-bottom: 4px; }
-.date { font-size: 0.9em; color: #666; font-style: italic; }
-ul { margin-top: 12px; line-height: 1.6; }
+.section-content h2 { 
+  color: var(--color-accent); 
+  margin-top: 0; 
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 1px;
+}
+
+.experience-block h3 { 
+  color: var(--color-base); 
+  margin-bottom: 4px; 
+}
+
+.date { 
+  font-size: 0.9em; 
+  color: #666; 
+  font-style: italic; 
+}
+
+/* Custom Card Suit List */
+ul { 
+  list-style-type: none; /* Removes the default dots */
+  padding-left: 0;
+  margin-top: 16px; 
+}
+
+li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+/* Inserts the Gold Spade */
+li::before {
+  content: '\2660'; /* Unicode for Spade */
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+  font-size: 1.2em;
+  line-height: 1.4; /* Aligns it nicely with the text */
+}
 </style>

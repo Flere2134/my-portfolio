@@ -23,13 +23,49 @@
 </template>
 
 <style scoped>
-.section-content h2 { color: var(--color-accent); margin-top: 0; }
+.section-content h2 { 
+  color: var(--color-accent); 
+  margin-top: 0; 
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 1px;
+}
+
 .project-card { 
-  background: rgba(0, 103, 79, 0.05); 
+  /* Updated the rgba tint to match your new Peacock Teal base (#0B4C53) */
+  background: rgba(11, 76, 83, 0.06); 
   padding: 20px; 
   border-radius: 8px; 
   margin-bottom: 20px;
-  border-left: 4px solid var(--color-base);
+  /* Changed the accent border to Gold */
+  border-left: 4px solid var(--color-accent); 
 }
-.project-card h3 { margin-top: 0; color: var(--color-base); }
+
+.project-card h3 { 
+  margin-top: 0; 
+  color: var(--color-base); 
+}
+
+/* Custom Card Suit List for Projects */
+ul { 
+  list-style-type: none; 
+  padding-left: 0;
+  margin-top: 12px;
+}
+
+li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+/* Inserts the Gold Club */
+li::before {
+  content: '\2663'; /* Unicode for Club */
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+  font-size: 1.1em;
+  line-height: 1.5;
+}
 </style>

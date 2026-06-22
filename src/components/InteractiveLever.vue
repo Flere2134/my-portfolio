@@ -8,15 +8,21 @@
         :class="{ active: activeIndex === index }"
       >
         {{ section }}
+        <span class="indicator-dot"></span>
       </div>
     </div>
     
-    <div class="track" ref="trackRef">
-      <div 
-        class="handle" 
-        :style="{ transform: `translateY(${handleY}px)` }"
-        @pointerdown="startDrag"
-      ></div>
+    <div class="track-casing">
+      <div class="track" ref="trackRef">
+        <div 
+          class="handle" 
+          :class="{ 'recoiling': isRecoiling }"
+          :style="{ transform: `translateY(${handleY}px)` }"
+          @pointerdown="startDrag"
+        >
+          <div class="metal-rod"></div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -37,6 +43,7 @@ const trackRef = ref(null)
 const handleY = ref(0)
 const activeIndex = ref(0)
 const isDragging = ref(false)
+const isRecoiling = ref(false)
 
 const startDrag = (event) => {
   isDragging.value = true
@@ -78,6 +85,13 @@ const onDrag = (event) => {
 
 const stopDrag = () => {
   isDragging.value = false
+  
+  // Trigger the mechanical recoil animation
+  isRecoiling.value = true
+  setTimeout(() => {
+    isRecoiling.value = false
+  }, 250) // The timeout matches the CSS animation duration
+
   window.removeEventListener('pointermove', onDrag)
   window.removeEventListener('pointerup', stopDrag)
 }
@@ -87,52 +101,138 @@ const stopDrag = () => {
 .lever-wrapper {
   display: flex;
   align-items: stretch;
-  gap: 20px;
-  height: 300px;
+  gap: 30px;
+  height: 320px;
+  padding: 20px 0;
 }
 
+/* Typography and Labels */
 .labels {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   text-align: right;
   font-weight: bold;
   color: var(--color-base);
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+  padding: 10px 0;
 }
 
 .label {
-  opacity: 0.5;
-  transition: opacity 0.3s ease;
+  opacity: 0.3;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 15px;
 }
 
 .label.active {
   opacity: 1;
   color: var(--color-accent);
+  transform: translateX(5px);
 }
 
+.indicator-dot {
+  width: 6px;
+  height: 6px;
+  background-color: currentColor;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.label.active .indicator-dot {
+  opacity: 1;
+}
+
+/* The Mechanical Casing */
+.track-casing {
+  padding: 10px 14px;
+  /* Matches the neutral background but adds a slight 3D bevel */
+  background: linear-gradient(145deg, rgba(253, 251, 212, 0.8), #ffffff);
+  border-radius: 20px;
+  box-shadow: 
+    4px 4px 10px rgba(0, 103, 79, 0.05),
+    -4px -4px 10px rgba(255, 255, 255, 0.8),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 103, 79, 0.1);
+  display: flex;
+  justify-content: center;
+}
+
+/* The Recessed Slot */
 .track {
-  width: 8px;
-  background-color: var(--color-base);
-  border-radius: 4px;
+  width: 14px;
+  background-color: #1a1a1a;
+  border-radius: 8px;
   position: relative;
   cursor: pointer;
+  /* Creates the deep groove effect */
+  box-shadow: 
+    inset 0 4px 8px rgba(0,0,0,0.8),
+    inset 0 1px 3px rgba(0,0,0,0.9);
 }
 
+/* The Glossy Sphere Knob */
 .handle {
-  width: 24px;
-  height: 24px;
-  background-color: var(--color-accent);
+  width: 44px;
+  height: 44px;
+  /* 3D Radial Gradient to make it look like a polished gem or casino chip */
+  background: radial-gradient(circle at 35% 35%, #ffbbee, var(--color-accent) 50%, #4a154b 90%);
   border-radius: 50%;
   position: absolute;
-  top: -12px; /* Center the handle on the 0 position */
-  left: -8px; /* Center horizontally over the track */
+  top: -22px; 
+  left: -15px; 
   cursor: grab;
   touch-action: none;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  /* Heavy drop shadow so it hovers above the track */
+  box-shadow: 
+    0 10px 15px rgba(0,0,0,0.3),
+    0 4px 6px rgba(0,0,0,0.2),
+    inset -4px -4px 8px rgba(0,0,0,0.3);
   transition: transform 0.05s linear;
+  z-index: 10;
 }
 
 .handle:active {
   cursor: grabbing;
+  /* Compress the shadow slightly to simulate pressing down */
+  box-shadow: 
+    0 5px 8px rgba(0,0,0,0.3),
+    0 2px 4px rgba(0,0,0,0.2),
+    inset -4px -4px 8px rgba(0,0,0,0.3);
+}
+
+/* The Gold Metal Arm */
+.metal-rod {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 12px;
+  /* Brushed gold effect */
+  background: linear-gradient(to bottom, #bf953f, #fcf6ba 30%, #b38728 50%, #fbf5b7 70%, #aa771c);
+  border-radius: 4px;
+  z-index: -1;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+}
+
+/* The Mechanical Recoil Animation */
+.handle.recoiling {
+  /* Using a custom bezier curve for a snappy, spring-like feel */
+  animation: mechanical-recoil 0.25s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes mechanical-recoil {
+  0% { margin-top: 0; }
+  35% { margin-top: 6px; }  /* Heavy drop when released */
+  65% { margin-top: -2px; } /* Slight bounce back up */
+  100% { margin-top: 0; }   /* Settles into the locked position */
 }
 </style>

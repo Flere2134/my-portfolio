@@ -26,8 +26,44 @@
 </template>
 
 <style scoped>
-.section-content h2 { color: var(--color-accent); margin-top: 0; }
-.skills-grid { display: flex; gap: 40px; }
-.skill-category h3 { color: var(--color-base); border-bottom: 2px solid var(--color-neutral); padding-bottom: 8px;}
-ul { list-style-type: square; line-height: 1.8; }
+.section-content h2 { 
+  color: var(--color-accent); 
+  margin-top: 0; 
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 1px;
+}
+
+.skills-grid { 
+  display: flex; 
+  gap: 40px; 
+}
+
+.skill-category h3 { 
+  color: var(--color-base); 
+  border-bottom: 2px solid var(--color-accent); /* Changed to gold for a richer look */
+  padding-bottom: 8px;
+}
+
+/* Custom Card Suit List */
+ul { 
+  list-style-type: none; 
+  padding-left: 0;
+}
+
+li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 10px;
+  line-height: 1.8;
+}
+
+/* Inserts the Gold Diamond */
+li::before {
+  content: '\2666'; /* Unicode for Diamond */
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+  font-size: 1.1em;
+  line-height: 1.6;
+}
 </style>
