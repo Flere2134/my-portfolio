@@ -1,23 +1,43 @@
 <template>
   <div class="section-content">
-    <h2>Featured Projects</h2>
-    
-    <div class="project-card">
-      <h3>Smart Sleep Therapy System</h3>
-      <p>An integrated IoT ecosystem designed to provide sound therapy.</p>
-      <ul>
-        <li><strong>Hardware:</strong> Engineered using ESP32/ESP8266 microcontrollers and integrated I2S radar modules/sensors housed in custom 3D-printed PLA/PETG enclosures.</li>
-        <li><strong>Software:</strong> Developed the companion mobile application utilizing Vue and Nuxt for a reactive, user-friendly interface.</li>
-      </ul>
-    </div>
+    <h2>Projects</h2>
 
-    <div class="project-card">
-      <h3>2D Logic Board Game</h3>
-      <p>A custom game project developed in Godot 4.6.</p>
-      <ul>
-        <li>Implemented core mechanics blending Snakes & Ladders with Rock-Paper-Scissors rulesets.</li>
-        <li>Engineered 2D board state logic, viewport management, and dynamic player interactions.</li>
-      </ul>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3>Algorhythm: Smart Sleep Sound Therapy Device with Mobile Application</h3>
+        <div class="tech-stack">Flutter / Figma / C++ / ESP32</div>
+        <ul>
+          <li>A sound therapy device that aims to improve sleep quality through sound therapy.</li>
+          <li>Validated the device's effectiveness in improving sleep quality, successfully maintaining a 90% sleep efficiency rate, reducing sleep latency by 66%, through integration of ESP32 and dynamic fusion of sensors.</li>
+          <li>Developed a functional sound therapy device, that has the ability to process ambient noise within milliseconds via digital audio amplifier.</li>
+        </ul>
+      </div>
+
+      <div class="project-card">
+        <h3>Echolocation Headgear</h3>
+        <div class="tech-stack">C++ / Arduino Nano</div>
+        <ul>
+          <li>A wearable device designed to assist the visually impaired in navigating their environment.</li>
+          <li>Engineered a prototype assistive echolocation wearable device, translating spatial proximity into real-time audio feedback for the visually challenged, by integrating to Arduino Nano with ultrasonic sensors.</li>
+        </ul>
+      </div>
+
+      <div class="project-card">
+        <h3>SaveSlot</h3>
+        <div class="tech-stack">React / Vite / TypeScript / Supabase</div>
+        <ul>
+          <li>An interactive website where gamers can track games they played as well as share and rate their experiences with those games.</li>
+        </ul>
+      </div>
+
+      <div class="project-card">
+        <h3>GasGuard: Smart Gas Leak Detection System</h3>
+        <div class="tech-stack">JavaScript / Vue / C++ / Firebase</div>
+        <ul>
+          <li>Developed a real-time gas leak detection system using IoT sensors and cloud-based analytics, ensuring seamless integration with various IoT protocols.</li>
+          <li>Engineered a smart gas leak detection system, integrating sensors with real-time monitoring and alerts, by leveraging Firebase for data storage and Vue.js for the user interface.</li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -27,45 +47,67 @@
   color: var(--color-accent); 
   margin-top: 0; 
   font-family: 'Montserrat', sans-serif;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.projects-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .project-card { 
-  /* Updated the rgba tint to match your new Peacock Teal base (#0B4C53) */
-  background: rgba(11, 76, 83, 0.06); 
-  padding: 20px; 
+  /* Deep VIP Dark Glass Effect */
+  background: rgba(255, 255, 255, 0.02); 
+  padding: 24px; 
   border-radius: 8px; 
-  margin-bottom: 20px;
-  /* Changed the accent border to Gold */
   border-left: 4px solid var(--color-accent); 
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.project-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateX(5px);
 }
 
 .project-card h3 { 
-  margin-top: 0; 
-  color: var(--color-base); 
+  margin: 0 0 8px 0; 
+  color: var(--color-text); 
+  font-size: 1.2rem;
 }
 
-/* Custom Card Suit List for Projects */
+.tech-stack {
+  font-size: 0.85em;
+  color: var(--color-cyan);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+/* Custom Clubs List */
 ul { 
   list-style-type: none; 
   padding-left: 0;
-  margin-top: 12px;
+  margin: 0;
 }
 
 li {
   position: relative;
-  padding-left: 22px;
-  margin-bottom: 8px;
+  padding-left: 30px;
+  margin-bottom: 10px;
   line-height: 1.6;
+  color: #B0B0B0;
 }
 
-/* Inserts the Gold Club */
 li::before {
-  content: '\2663'; /* Unicode for Club */
+  content: '\2663'; /* Gold Club */
   position: absolute;
   left: 0;
   color: var(--color-accent);
-  font-size: 1.1em;
+  font-size: 1.3em;
   line-height: 1.5;
 }
 </style>

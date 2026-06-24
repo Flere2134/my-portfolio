@@ -27,7 +27,7 @@
           </a>
         </div>
 
-        <a href="/resume.pdf" class="dossier-btn prominent" target="_blank">GET THE DOSSIER</a>
+        <a href="/resume.pdf" class="dossier-btn prominent" target="_blank">GET MY RESUME</a>
       </div>
       
       <div class="right-content">
