@@ -12,21 +12,27 @@
             <h2>Computer Engineer</h2>
           </div>
           
-          <div class="social-links">
-            <a href="https://github.com/yourusername" target="_blank" aria-label="GitHub">
-              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-            </a>
-            <a href="https://linkedin.com/in/yourusername" target="_blank" aria-label="LinkedIn">
-              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-            </a>
-          </div>
+        <div class="social-links">
+          <a href="https://github.com/Flere2134" target="_blank" aria-label="GitHub">
+            <span class="icon github-icon"></span>
+          </a>
+          <a href="https://www.linkedin.com/in/arboleda-aaron-hans-121b76372/" target="_blank" aria-label="LinkedIn">
+            <span class="icon linkedin-icon"></span>
+          </a>
+          <a href="https://www.facebook.com/aronhans.corn/" target="_blank" aria-label="Facebook">
+            <span class="icon facebook-icon"></span>
+          </a>
+          <a href="https://instagram.com/itsaaronic_/" target="_blank" aria-label="Instagram">
+            <span class="icon instagram-icon"></span>
+          </a>
+        </div>
 
-          <a href="/resume.pdf" class="dossier-btn prominent" target="_blank">GET THE DOSSIER</a>
-        </div>
-        
-        <div class="right-content">
-          <img src="./assets/img/profile-photo.jpg" alt="Aaron's Profile" class="profile-photo massive" />
-        </div>
+        <a href="/resume.pdf" class="dossier-btn prominent" target="_blank">GET THE DOSSIER</a>
+      </div>
+      
+      <div class="right-content">
+        <img src="./assets/img/profile-photo.jpg" alt="Aaron's Profile" class="profile-photo massive" />
+      </div>
       </div>
     </header>
 
@@ -164,19 +170,18 @@ body {
   flex: 0 1 auto;
 }
 
-/* 3. Massive Typography for Name and Role */
 .titles h1 {
   font-family: 'Montserrat', sans-serif;
   font-size: 6.5rem; /* Massive, commanding name */
   font-weight: 700;
   margin: 0;
-  letter-spacing: -2px; /* Pulls the large letters tighter for a modern look */
+  letter-spacing: -2px;
   color: var(--color-text);
 }
 
 .titles h2 {
   font-family: 'Inter', sans-serif;
-  font-size: 2.2rem; /* Much larger and bolder role text */
+  font-size: 1.75rem;
   font-weight: 400;
   margin: 0;
   letter-spacing: 1px;
@@ -217,15 +222,58 @@ body {
 }
 
 .social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;  /* Adjust this slightly if you want larger/smaller circles */
+  height: 44px;
+  border-radius: 50%; /* line that makes it a circle */
   color: var(--color-text);
   background-color: rgba(255, 255, 255, 0.05);
-  box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
 }
 
 .social-links a:hover {
   color: var(--color-cyan);
   background-color: rgba(40, 194, 194, 0.1);
   transform: translateY(-2px) scale(1.05); /* Adds a slight lift and scale on hover */
+}
+
+.icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-color: currentColor; 
+  
+  /* Standardizes the mask behavior */
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* Map each icon to its downloaded SVG file */
+.github-icon {
+  -webkit-mask-image: url('./assets/icons/github.svg');
+  mask-image: url('./assets/icons/github.svg');
+}
+
+.linkedin-icon {
+  -webkit-mask-image: url('./assets/icons/linkedin.svg');
+  mask-image: url('./assets/icons/linkedin.svg');
+}
+
+.facebook-icon {
+  -webkit-mask-image: url('./assets/icons/facebook.svg');
+  mask-image: url('./assets/icons/facebook.svg');
+}
+
+.instagram-icon {
+  -webkit-mask-image: url('./assets/icons/instagram.svg');
+  mask-image: url('./assets/icons/instagram.svg');
 }
 
 /* Bolder, More Prominent Dossier Button */
