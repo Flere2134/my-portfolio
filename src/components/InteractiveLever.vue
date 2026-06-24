@@ -1,14 +1,19 @@
 <template>
   <div class="lever-wrapper">
-    <div class="labels">
+    <div class="reel-window">
       <div 
-        v-for="(section, index) in sections" 
-        :key="section"
-        class="label"
-        :class="{ active: activeIndex === index }"
+        class="reel-strip" 
+        :style="{ transform: `translateY(-${activeIndex * 50}px)` }"
       >
-        {{ section }}
-        <span class="indicator-dot"></span>
+        <div 
+          v-for="(section, index) in sections" 
+          :key="section"
+          class="reel-item"
+          :class="{ active: activeIndex === index }"
+        >
+          {{ section }}
+          <span class="indicator-dot"></span>
+        </div>
       </div>
     </div>
     
@@ -16,8 +21,8 @@
       <div class="track" ref="trackRef">
         <div 
           class="handle" 
-          :class="{ 'recoiling': isRecoiling }"
-          :style="{ transform: `translateY(${handleY}px)` }"
+          :class="{ 'recoiling': !isDragging }"
+          :style="{ transform: `translateY(${dragOffset}px)` }"
           @pointerdown="startDrag"
         >
           <div class="metal-rod"></div>
@@ -40,58 +45,59 @@ const props = defineProps({
 const emit = defineEmits(['update:section'])
 
 const trackRef = ref(null)
-const handleY = ref(0)
-const activeIndex = ref(0)
 const isDragging = ref(false)
-const isRecoiling = ref(false)
+const startY = ref(0)
+const currentY = ref(0)
+const activeIndex = ref(0)
+
+// Maximum pixels the lever can be pulled in either direction
+const maxDrag = 70 
+
+// Calculates how far the lever is pulled from the center
+const dragOffset = computed(() => {
+  if (!isDragging.value) return 0 // Instantly snaps to 0 (center) when not dragging
+  
+  let offset = currentY.value - startY.value
+  // Constrains the handle so it doesn't leave the track
+  return Math.max(-maxDrag, Math.min(maxDrag, offset))
+})
 
 const startDrag = (event) => {
   isDragging.value = true
+  startY.value = event.clientY
+  currentY.value = event.clientY
+  
   window.addEventListener('pointermove', onDrag)
   window.addEventListener('pointerup', stopDrag)
-  // Prevent default scrolling while dragging on touch devices
   event.preventDefault() 
 }
 
 const onDrag = (event) => {
-  if (!isDragging.value || !trackRef.value) return
-
-  const trackRect = trackRef.value.getBoundingClientRect()
-  
-  // Calculate relative Y position within the track boundaries
-  let newY = event.clientY - trackRect.top
-  
-  // Constrain the handle within the track (0 to track height)
-  newY = Math.max(0, Math.min(newY, trackRect.height))
-  handleY.value = newY
-
-  // Calculate progress ratio (0.0 to 1.0)
-  const progress = newY / trackRect.height
-  
-  // Determine which section we are in.
-  // We strictly floor the value to ensure it maps correctly to our array indices [0, 1, 2, 3]
-  let mappedIndex = Math.floor(progress * props.sections.length)
-  
-  // Edge case: if dragged to the absolute bottom edge, cap it at the last index
-  if (mappedIndex >= props.sections.length) {
-    mappedIndex = props.sections.length - 1
-  }
-
-  if (activeIndex.value !== mappedIndex) {
-    activeIndex.value = mappedIndex
-    emit('update:section', props.sections[mappedIndex])
-  }
+  if (!isDragging.value) return
+  currentY.value = event.clientY
 }
 
 const stopDrag = () => {
-  isDragging.value = false
+  // 1. Capture the final offset BEFORE resetting the drag state
+  const finalOffset = dragOffset.value
+  const triggerThreshold = 35 
   
-  // Trigger the mechanical recoil animation
-  isRecoiling.value = true
-  setTimeout(() => {
-    isRecoiling.value = false
-  }, 250) // The timeout matches the CSS animation duration
-
+  // 2. Evaluate the captured offset
+  if (finalOffset > triggerThreshold) {
+    // Pulled DOWN -> Spin to the NEXT section
+    if (activeIndex.value < props.sections.length - 1) {
+      activeIndex.value++
+      emit('update:section', props.sections[activeIndex.value])
+    }
+  } else if (finalOffset < -triggerThreshold) {
+    // Pushed UP -> Spin to the PREVIOUS section
+    if (activeIndex.value > 0) {
+      activeIndex.value--
+      emit('update:section', props.sections[activeIndex.value])
+    }
+  }
+  // 3. NOW reset the dragging state so the lever snaps back visually
+  isDragging.value = false
   window.removeEventListener('pointermove', onDrag)
   window.removeEventListener('pointerup', stopDrag)
 }
@@ -100,41 +106,48 @@ const stopDrag = () => {
 <style scoped>
 .lever-wrapper {
   display: flex;
-  align-items: stretch;
+  align-items: center;
   gap: 30px;
-  height: 320px;
-  padding: 20px 0;
+  height: 240px;
 }
 
-/* Typography and Labels */
-.labels {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  text-align: right;
-  font-weight: bold;
-  color: var(--color-base);
-  font-family: 'Montserrat', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 0.9rem;
-  padding: 10px 0;
-}
-
-.label {
-  opacity: 0.3;
-  transition: all 0.3s ease;
+/* --- The Slot Machine Reel System --- */
+.reel-window {
+  height: 150px; /* Shows 3 items at a time */
+  width: 160px;
   position: relative;
+  overflow: hidden;
+  /* Fades out the top and bottom text to create a cylindrical illusion */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
+}
+
+.reel-strip {
+  /* Pushes the first item down so it starts exactly in the center of the 150px window */
+  padding-top: 50px; 
+  /* The snappy, heavy spin animation */
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15); 
+}
+
+.reel-item {
+  height: 50px; /* Precise height for mathematical transform offsets */
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 15px;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  opacity: 0.2;
+  transition: all 0.3s ease;
 }
 
-.label.active {
+.reel-item.active {
   opacity: 1;
   color: var(--color-accent);
-  transform: translateX(5px);
 }
 
 .indicator-dot {
@@ -146,69 +159,74 @@ const stopDrag = () => {
   transition: opacity 0.3s ease;
 }
 
-.label.active .indicator-dot {
+.reel-item.active .indicator-dot {
   opacity: 1;
 }
 
-/* The Dark Mechanical Casing */
+/* --- The Mechanical Dark Casing --- */
 .track-casing {
   padding: 10px 14px;
-  /* Dark brushed metal gradient */
   background: linear-gradient(145deg, #1e1e1e, #0a0a0a);
   border-radius: 20px;
   box-shadow: 
     4px 4px 10px rgba(0, 0, 0, 0.6),
     -2px -2px 8px rgba(255, 255, 255, 0.05),
     inset 1px 1px 2px rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(195, 155, 87, 0.15); /* Faint gold rim */
+  border: 1px solid rgba(195, 155, 87, 0.15); 
+  height: 180px; /* Fixed height so the lever has room to travel */
   display: flex;
   justify-content: center;
 }
 
-/* The Recessed Slot */
 .track {
   width: 14px;
   background-color: #1a1a1a;
   border-radius: 8px;
   position: relative;
-  cursor: pointer;
-  /* Creates the deep groove effect */
   box-shadow: 
     inset 0 4px 8px rgba(0,0,0,0.8),
     inset 0 1px 3px rgba(0,0,0,0.9);
+  height: 100%;
 }
 
-/* The Glossy Sphere Knob */
+/* --- The Spring-Loaded Handle --- */
 .handle {
   width: 44px;
   height: 44px;
-  /* 3D Radial Gradient to make it look like a polished gem or casino chip */
   background: radial-gradient(circle at 35% 35%, #ffbbee, var(--color-accent) 50%, #4a154b 90%);
   border-radius: 50%;
+  
+  /* Positions the handle absolutely in the dead center of the track */
   position: absolute;
-  top: -22px; 
-  left: -15px; 
+  top: 50%; 
+  left: 50%;
+  margin-top: -22px; 
+  margin-left: -22px; 
+  
   cursor: grab;
   touch-action: none;
-  /* Heavy drop shadow so it hovers above the track */
   box-shadow: 
     0 10px 15px rgba(0,0,0,0.3),
     0 4px 6px rgba(0,0,0,0.2),
     inset -4px -4px 8px rgba(0,0,0,0.3);
-  transition: transform 0.05s linear;
   z-index: 10;
 }
 
 .handle:active {
   cursor: grabbing;
-  /* Compress the shadow slightly to simulate pressing down */
   box-shadow: 
     0 5px 8px rgba(0,0,0,0.3),
     0 2px 4px rgba(0,0,0,0.2),
     inset -4px -4px 8px rgba(0,0,0,0.3);
 }
 
-/* The Gold Metal Arm */
+/* When the user releases the mouse (!isDragging), this class is applied.
+  It creates the violent, spring-loaded snap back to 0px (center). 
+*/
+.handle.recoiling {
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
 .metal-rod {
   position: absolute;
   top: 50%;
@@ -216,23 +234,9 @@ const stopDrag = () => {
   transform: translate(-50%, -50%);
   width: 60px;
   height: 12px;
-  /* Brushed gold effect */
   background: linear-gradient(to bottom, #bf953f, #fcf6ba 30%, #b38728 50%, #fbf5b7 70%, #aa771c);
   border-radius: 4px;
   z-index: -1;
   box-shadow: 0 4px 6px rgba(0,0,0,0.4);
-}
-
-/* The Mechanical Recoil Animation */
-.handle.recoiling {
-  /* Using a custom bezier curve for a snappy, spring-like feel */
-  animation: mechanical-recoil 0.25s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-}
-
-@keyframes mechanical-recoil {
-  0% { margin-top: 0; }
-  35% { margin-top: 6px; }  /* Heavy drop when released */
-  65% { margin-top: -2px; } /* Slight bounce back up */
-  100% { margin-top: 0; }   /* Settles into the locked position */
 }
 </style>
