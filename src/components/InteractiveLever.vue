@@ -34,6 +34,9 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import leverSoundUrl from '@/assets/audio/lever-clack.wav'
+const leverAudio = new Audio(leverSoundUrl)
+leverAudio.volume = 0.03
 
 const props = defineProps({
   sections: {
@@ -78,11 +81,9 @@ const onDrag = (event) => {
 }
 
 const stopDrag = () => {
-  // 1. Capture the final offset BEFORE resetting the drag state
   const finalOffset = dragOffset.value
   const triggerThreshold = 35 
   
-  // 2. Evaluate the captured offset
   if (finalOffset > triggerThreshold) {
     // Pulled DOWN -> Spin to the NEXT section
     if (activeIndex.value < props.sections.length - 1) {
@@ -96,7 +97,12 @@ const stopDrag = () => {
       emit('update:section', props.sections[activeIndex.value])
     }
   }
-  // 3. NOW reset the dragging state so the lever snaps back visually
+
+  // Play the mechanical snap sound!
+  // We reset currentTime to 0 so the sound plays immediately even if they drag it rapidly
+  leverAudio.currentTime = 0 
+  leverAudio.play().catch(e => console.log("Audio play prevented by browser:", e))
+
   isDragging.value = false
   window.removeEventListener('pointermove', onDrag)
   window.removeEventListener('pointerup', stopDrag)

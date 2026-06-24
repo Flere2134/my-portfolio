@@ -1,6 +1,6 @@
 <template>
   <div class="section-content">
-    <h2>Technical Arsenal</h2>
+    <h2>Skills</h2>
     
     <div class="skills-grid">
       <div class="skill-category">
