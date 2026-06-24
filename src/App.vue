@@ -16,18 +16,20 @@
       </div>
     </header>
 
-    <main class="interactive-section">
-      <InteractiveLever 
-        :sections="portfolioSections" 
-        @update:section="currentSection = $event" 
-      />
-      
-      <section class="content-display">
-        <transition name="reel" mode="out-in">
-          <component :is="currentComponent" />
-        </transition>
-      </section>
-    </main>
+    <div class="screen-2-bg">
+      <main class="interactive-section">
+        <InteractiveLever 
+          :sections="portfolioSections" 
+          @update:section="currentSection = $event" 
+        />
+        
+        <section class="content-display">
+          <transition name="reel" mode="out-in">
+            <component :is="currentComponent" />
+          </transition>
+        </section>
+      </main>
+    </div>
   </div>
 </template>
 
@@ -60,24 +62,26 @@ const currentComponent = computed(() => componentMap[currentSection.value])
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@700&display=swap');
 /* Global Color Variables */
 :root {
-  --color-base: #0B4C53;
-  --color-neutral: #F5F2E6 ;
-  --color-accent: #C39B57;
+  --color-bg-1: #07191C;    /* Midnight Peacock - For Screen 1 */
+  --color-bg-2: #140D16;    /* Deep Velvet Plum - For Screen 2 Color Blocking */
+  --color-text: #E8E6E1;    /* Crisp Off-White - Keeps text highly readable */
+  --color-accent: #C39B57;  /* Casino Gold - Remains for our foil and accents */
+  --color-cyan: #28C2C2;    /* Signature Turquoise - For subtle glowing effects */
 }
 
 body {
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  color: var(--color-base);
+  color: var(--color-text);
+  background-color: var(--color-bg-1);
   
-  /* The Gabardine Weave Effect */
-  background-color: var(--color-neutral);
+  /* The Dark Gabardine Weave Effect */
   background-image: repeating-linear-gradient(
     -45deg,
     transparent,
     transparent 2px,
-    rgba(0, 103, 79, 0.03) 2px, /* Uses a tiny hint of your base green */
-    rgba(0, 103, 79, 0.03) 4px
+    rgba(255, 255, 255, 0.02) 2px, 
+    rgba(255, 255, 255, 0.02) 4px
   );
 }
 
@@ -91,8 +95,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 60px; /* Increased gap for better breathing room */
-  border-bottom: 4px solid var(--color-base);
+  gap: 60px;
 }
 
 .profile-circle {
@@ -133,6 +136,11 @@ body {
   margin: 0;
   color: var(--color-accent); /* Using the plum color to make your role pop */
   letter-spacing: 1px;
+  background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 .social-links {
@@ -142,23 +150,41 @@ body {
 }
 
 .social-links a {
-  color: var(--color-base);
+  color: var(--color-text);
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 8px;
   border-radius: 50%;
-  background-color: rgba(0, 103, 79, 0.05); /* Subtle background circle */
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .social-links a:hover {
-  color: var(--color-accent);
-  background-color: rgba(142, 69, 133, 0.1);
-  transform: translateY(-2px); /* Slight lift on hover */
+  color: var(--color-cyan); /* They now glow signature turquoise on hover! */
+  background-color: rgba(40, 194, 194, 0.1);
+  transform: translateY(-2px); 
+}
+
+/* Dossier Button */
+.dossier-btn {
+  /* ... keep your existing properties, but update these: */
+  color: var(--color-text);
+}
+
+.dossier-btn:hover {
+  background-color: var(--color-accent);
+  color: #000; /* Dark text on the gold background for high contrast */
+  box-shadow: 0 0 20px rgba(195, 155, 87, 0.4); 
+  transform: translateY(-2px);
 }
 
 /* Screen 2 Styles */
+.screen-2-bg {
+  background-color: var(--color-bg-2);
+  width: 100%;
+}
+
 .interactive-section {
   min-height: 100vh;
   padding: 100px 50px;
@@ -172,11 +198,13 @@ body {
 .content-display {
   flex: 1;
   padding: 40px;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.03); 
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 103, 79, 0.1);
+  border: 1px solid rgba(195, 155, 87, 0.2); 
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); 
+  
   position: relative; 
-  overflow: hidden;
+  overflow: hidden; 
 }
 
 .content-display h2 {

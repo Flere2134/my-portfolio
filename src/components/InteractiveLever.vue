@@ -150,17 +150,17 @@ const stopDrag = () => {
   opacity: 1;
 }
 
-/* The Mechanical Casing */
+/* The Dark Mechanical Casing */
 .track-casing {
   padding: 10px 14px;
-  /* Matches the neutral background but adds a slight 3D bevel */
-  background: linear-gradient(145deg, rgba(253, 251, 212, 0.8), #ffffff);
+  /* Dark brushed metal gradient */
+  background: linear-gradient(145deg, #1e1e1e, #0a0a0a);
   border-radius: 20px;
   box-shadow: 
-    4px 4px 10px rgba(0, 103, 79, 0.05),
-    -4px -4px 10px rgba(255, 255, 255, 0.8),
-    inset 1px 1px 2px rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 103, 79, 0.1);
+    4px 4px 10px rgba(0, 0, 0, 0.6),
+    -2px -2px 8px rgba(255, 255, 255, 0.05),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(195, 155, 87, 0.15); /* Faint gold rim */
   display: flex;
   justify-content: center;
 }
