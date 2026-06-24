@@ -230,18 +230,32 @@ body {
 
 /* Bolder, More Prominent Dossier Button */
 .dossier-btn.prominent {
-  margin-top: 0; /* Spacing handled by flex gap */
-  padding: 16px 40px; /* Much larger button */
-  border: 3px solid var(--color-accent); /* Bolder border */
-  font-size: 1rem; /* Slightly larger text */
-  letter-spacing: 4px; /* More tailored spacing */
-  align-self: flex-start; /* Sharp left alignment */
+  margin-top: 0; 
+  padding: 16px 40px; 
+  border: 3px solid var(--color-accent); /* Casino Gold border */
+  border-radius: 50px;
+  
+  /* FIX: Force the text to be your crisp off-white and remove default underlines */
+  color: var(--color-text); 
+  text-decoration: none; 
+  
+  /* Make it heavily bolded to match the reference */
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800; /* Extra bold */
+  font-size: 1.1rem; 
+  letter-spacing: 3px; 
+  align-self: flex-start; 
+  transition: all 0.3s ease;
 }
 
 .dossier-btn.prominent:hover {
+  /* Fills with that beautiful gold/light brown on hover */
   background-color: var(--color-accent);
-  color: #000;
-  box-shadow: 0 0 30px rgba(195, 155, 87, 0.5); 
+  
+  /* Text turns to your deep dark background color for high contrast */
+  color: var(--color-bg-1); 
+  
+  box-shadow: 0 0 30px rgba(195, 155, 87, 0.4); 
   transform: translateY(-2px);
 }
 
