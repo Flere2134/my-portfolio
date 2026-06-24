@@ -201,15 +201,34 @@ body {
   flex: 0 1 auto;
 }
 
-/* 4. Dramatically Massive Profile Photo with Refined Glow */
+/* --- Glowing Profile Photo --- */
 .profile-photo.massive {
-  width: 440px; /* Dramatic scale */
+  width: 440px; /* Restored to the full massive size */
   height: 440px;
   border-radius: 50%;
   object-fit: cover;
-  /* Remove the simple border and add a refined glow to make it stand out */
-  border: none;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 50px rgba(40, 194, 194, 0.15); /* Adds presence and a subtle cyan hint */
+  
+  /* A sleek, very subtle gold ring to define the edge */
+  border: 2px solid rgba(195, 155, 87, 0.4);
+  
+  /* The subtle Aventurine glow: combining deep drop shadow with a cyan/gold radiance */
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.6), 
+    0 0 40px rgba(40, 194, 194, 0.15),
+    0 0 80px rgba(195, 155, 87, 0.1);
+    
+  transition: all 0.4s ease;
+  z-index: 2;
+}
+
+/* Let the glow breathe and intensify slightly when hovered */
+.profile-photo.massive:hover {
+  transform: scale(1.02);
+  border-color: rgba(195, 155, 87, 0.8);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.7), 
+    0 0 50px rgba(40, 194, 194, 0.25),
+    0 0 100px rgba(195, 155, 87, 0.2);
 }
 
 /* Adjust social icons for left alignment and better flow */
