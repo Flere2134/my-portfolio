@@ -1,17 +1,31 @@
 <template>
   <div class="portfolio-container">
     <header class="hero-section">
-      <img src="./assets/img/profile-photo.jpg" alt="Aaron's Profile" class="profile-photo" />
-      <div class="titles">
-        <h1>Aaron</h1>
-        <h2>Computer Engineer</h2>
-        <div class="social-links">
-          <a href="https://github.com/Flere2134" target="_blank" aria-label="GitHub">
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-          </a>
-          <a href="https://linkedin.com/in/arboleda-aaron-hans-121b76372" target="_blank" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-          </a>
+      <div 
+        class="scenic-overlay" 
+        :style="{ backgroundImage: `url(${scenicBgUrl})` }"
+      ></div>
+      <div class="hero-container">
+        <div class="left-content">
+          <div class="titles">
+            <h1>This is Aaron</h1>
+            <h2>Computer Engineer</h2>
+          </div>
+          
+          <div class="social-links">
+            <a href="https://github.com/yourusername" target="_blank" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a>
+            <a href="https://linkedin.com/in/yourusername" target="_blank" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+          </div>
+
+          <a href="/resume.pdf" class="dossier-btn prominent" target="_blank">GET THE DOSSIER</a>
+        </div>
+        
+        <div class="right-content">
+          <img src="./assets/img/profile-photo.jpg" alt="Aaron's Profile" class="profile-photo massive" />
         </div>
       </div>
     </header>
@@ -36,12 +50,11 @@
 <script setup>
 import { ref, computed } from 'vue'
 import InteractiveLever from './components/InteractiveLever.vue'
-
-// Import your actual content components
 import AboutMe from './components/AboutMe.vue'
 import Experience from './components/Experience.vue'
 import Projects from './components/Projects.vue'
 import Skills from './components/Skills.vue'
+import scenicBgUrl from '@/assets/img/scenic-background.jpg'
 
 // Map the section names to the imported files
 const componentMap = {
@@ -95,87 +108,140 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 60px;
+  gap: 100px; 
+  position: relative;
+  background-color: var(--color-bg-1);
+  overflow: hidden; /* Keeps the image contained */
 }
 
-.profile-circle {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  border: 4px solid var(--color-base);
+/* The new scenic overlay class */
+.scenic-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.85; /* Keep it subtle */
+  z-index: 0;
 }
 
-.profile-photo {
-  width: 240px; /* Slightly larger for better impact */
-  height: 240px;
-  border-radius: 50%;
-  object-fit: cover; /* Ensures your photo fills the circle without stretching */
-  border: 4px solid var(--color-base);
-  box-shadow: 0 12px 24px rgba(0, 103, 79, 0.15); /* Adds a refined, subtle shadow */
+/* Ensure the dark green base color is applied over the image */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(7, 25, 28, 0.85); /* Midnight peacock */
+  z-index: 1;
 }
 
-.titles {
+.hero-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1400px; /* Constrains the maximum width */
+  padding: 0 80px; /* Pulls content away from the edges */
+  z-index: 2; /* Ensures it sits above the background */
+}
+
+/* All content within the hero sits above the overlays */
+.left-content,
+.right-content {
+  z-index: 2;
+  flex: 1; /* Both sides share space equally */
+}
+
+.left-content {
   display: flex;
   flex-direction: column;
-  gap: 8px; /* Tighter spacing between name and role */
+  align-items: flex-start; /* Sharp left alignment */
+  gap: 24px;
+  flex: 0 1 auto;
 }
 
+/* 3. Massive Typography for Name and Role */
 .titles h1 {
   font-family: 'Montserrat', sans-serif;
-  font-size: 5rem; /* Massive, striking name */
+  font-size: 6.5rem; /* Massive, commanding name */
   font-weight: 700;
   margin: 0;
-  letter-spacing: -1.5px; /* Pulls the letters slightly closer for a modern look */
-  color: var(--color-base);
+  letter-spacing: -2px; /* Pulls the large letters tighter for a modern look */
+  color: var(--color-text);
 }
 
 .titles h2 {
   font-family: 'Inter', sans-serif;
-  font-size: 1.75rem;
+  font-size: 2.2rem; /* Much larger and bolder role text */
   font-weight: 400;
   margin: 0;
-  color: var(--color-accent); /* Using the plum color to make your role pop */
   letter-spacing: 1px;
+  
+  /* Scaled up the original Brushed Gold Foil Effect */
   background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  color: transparent;
+  color: transparent; /* Fallback */
 }
 
+.right-content {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 0 1 auto;
+}
+
+/* 4. Dramatically Massive Profile Photo with Refined Glow */
+.profile-photo.massive {
+  width: 440px; /* Dramatic scale */
+  height: 440px;
+  border-radius: 50%;
+  object-fit: cover;
+  /* Remove the simple border and add a refined glow to make it stand out */
+  border: none;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 50px rgba(40, 194, 194, 0.15); /* Adds presence and a subtle cyan hint */
+}
+
+/* Adjust social icons for left alignment and better flow */
 .social-links {
   display: flex;
-  gap: 16px;
-  margin-top: 12px;
+  gap: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  align-self: flex-start; /* Force left alignment */
 }
 
 .social-links a {
   color: var(--color-text);
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px;
-  border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
 }
 
 .social-links a:hover {
-  color: var(--color-cyan); /* They now glow signature turquoise on hover! */
+  color: var(--color-cyan);
   background-color: rgba(40, 194, 194, 0.1);
-  transform: translateY(-2px); 
+  transform: translateY(-2px) scale(1.05); /* Adds a slight lift and scale on hover */
 }
 
-/* Dossier Button */
-.dossier-btn {
-  /* ... keep your existing properties, but update these: */
-  color: var(--color-text);
+/* Bolder, More Prominent Dossier Button */
+.dossier-btn.prominent {
+  margin-top: 0; /* Spacing handled by flex gap */
+  padding: 16px 40px; /* Much larger button */
+  border: 3px solid var(--color-accent); /* Bolder border */
+  font-size: 1rem; /* Slightly larger text */
+  letter-spacing: 4px; /* More tailored spacing */
+  align-self: flex-start; /* Sharp left alignment */
 }
 
-.dossier-btn:hover {
+.dossier-btn.prominent:hover {
   background-color: var(--color-accent);
-  color: #000; /* Dark text on the gold background for high contrast */
-  box-shadow: 0 0 20px rgba(195, 155, 87, 0.4); 
+  color: #000;
+  box-shadow: 0 0 30px rgba(195, 155, 87, 0.5); 
   transform: translateY(-2px);
 }
 
