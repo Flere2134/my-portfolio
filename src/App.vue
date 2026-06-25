@@ -50,10 +50,10 @@
         </section>
       </main>
     </div>
-    <div class="screen-3-bg" reveal-on-scroll>
+    <div class="screen-3-bg reveal-on-scroll">
       <ImageSlots />
     </div>
-    <div class="screen-4-bg" reveal-on-scroll>
+    <div class="screen-4-bg reveal-on-scroll">
       <ContactTerminal />
     </div>
   </div>
