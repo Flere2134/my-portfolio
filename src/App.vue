@@ -101,6 +101,12 @@ const currentComponent = computed(() => componentMap[currentSection.value])
   box-sizing: border-box;
 }
 
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -414,5 +420,46 @@ body {
   padding: 100px 50px;
   /* Brings back the velvet plum to match Screen 2 */
   background-color: var(--color-bg-2); 
+}
+
+@media (max-width: 1024px) {
+  /* --- Global Resets --- */
+  .portfolio-container { overflow-x: hidden; width: 100%; }
+
+  /* --- Screen 1: The Hero --- */
+  .hero-container {
+    flex-direction: column-reverse; 
+    justify-content: center;
+    gap: 40px;
+    padding: 0 20px;
+    text-align: center;
+  }
+  
+  .left-content { align-items: center; }
+  .social-links, .dossier-btn.prominent { align-self: center; }
+  .titles h1 { font-size: clamp(3rem, 8vw, 6.5rem); letter-spacing: -1px; } /* Fluid typography */
+  .titles h2 { font-size: 1.4rem; }
+  
+  .profile-photo.massive {
+    width: clamp(220px, 40vw, 350px); /* Scales smoothly between phones and iPads */
+    height: clamp(220px, 40vw, 350px);
+  }
+
+  /* --- Screen 2: The Dossier --- */
+  .interactive-section {
+    flex-direction: column; 
+    padding: 60px 20px;
+    gap: 40px;
+  }
+
+  .content-display {
+    width: 100%;
+    padding: 25px 20px;
+  }
+
+  /* --- Screen 4: The Terminal --- */
+  .screen-4-bg { padding: 60px 20px; }
+  .terminal-casing { width: 100%; }
+  .terminal-body { padding: 25px 20px; }
 }
 </style>

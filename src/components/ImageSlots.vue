@@ -144,4 +144,35 @@ const imageStrip = [...baseImages, ...baseImages]
 .image-slot:hover img {
   filter: brightness(1) contrast(1);
 }
+
+@media (max-width: 1024px) {
+  .slot-machine-casing {
+    padding: 20px 15px; 
+    border-radius: 12px;
+  }
+
+  .reels-container {
+    gap: 10px; 
+    padding: 10px;
+  }
+
+  .reel-window {
+    width: 28vw; 
+    height: 28vw;
+    max-width: 250px;
+    max-height: 250px;
+  }
+
+  .image-slot {
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+  
+  .section-content h2 {
+    font-size: 1.5rem; 
+    margin-bottom: 25px;
+    text-align: center;
+  }
+}
 </style>
