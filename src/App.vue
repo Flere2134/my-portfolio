@@ -50,6 +50,9 @@
         </section>
       </main>
     </div>
+    <div class="screen-3-bg">
+      <ImageSlots />
+    </div>
   </div>
 </template>
 
@@ -60,6 +63,7 @@ import AboutMe from './components/AboutMe.vue'
 import Experience from './components/Experience.vue'
 import Projects from './components/Projects.vue'
 import Skills from './components/Skills.vue'
+import ImageSlots from './components/ImageSlots.vue'
 import scenicBgUrl from '@/assets/img/scenic-background.jpg'
 
 // Map the section names to the imported files
@@ -88,13 +92,18 @@ const currentComponent = computed(() => componentMap[currentSection.value])
   --color-cyan: #28C2C2;    /* Signature Turquoise - For subtle glowing effects */
 }
 
+/* Apply border-box globally to prevent padding from expanding widths */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
+  padding: 0;
+  overflow-x: hidden; 
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   color: var(--color-text);
   background-color: var(--color-bg-1);
-  
-  /* The Dark Gabardine Weave Effect */
   background-image: repeating-linear-gradient(
     -45deg,
     transparent,
@@ -380,5 +389,16 @@ body {
   opacity: 0;
   transform: translateY(60px); /* Drops out below */
   filter: blur(6px);
+}
+/* Screen 3 Styles */
+.screen-3-bg {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 50px;
+  /* Reverts back to the midnight peacock to create contrast with Screen 2 */
+  background-color: var(--color-bg-1); 
 }
 </style>
