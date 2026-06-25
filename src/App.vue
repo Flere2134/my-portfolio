@@ -27,7 +27,7 @@
           </a>
         </div>
 
-        <a href="/resume.pdf" class="dossier-btn prominent" target="_blank">GET MY RESUME</a>
+        <a href="public/PUBLIC-resume.pdf" class="dossier-btn prominent" target="_blank" rel="noopener noreferrer" download>GET MY RESUME</a>
       </div>
       
       <div class="right-content">
