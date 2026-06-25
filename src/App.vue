@@ -186,7 +186,7 @@ body {
   flex-direction: column;
   align-items: flex-start; /* Sharp left alignment */
   gap: 24px;
-  flex: 0 1 auto;
+  flex: 0 1 auto; 
 }
 
 .titles h1 {
