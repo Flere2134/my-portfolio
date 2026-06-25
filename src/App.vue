@@ -50,17 +50,17 @@
         </section>
       </main>
     </div>
-    <div class="screen-3-bg">
+    <div class="screen-3-bg" reveal-on-scroll>
       <ImageSlots />
     </div>
-    <div class="screen-4-bg">
+    <div class="screen-4-bg" reveal-on-scroll>
       <ContactTerminal />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue' // Added lifecycle hooks
 import InteractiveLever from './components/InteractiveLever.vue'
 import AboutMe from './components/AboutMe.vue'
 import Experience from './components/Experience.vue'
@@ -70,7 +70,7 @@ import ImageSlots from './components/ImageSlots.vue'
 import ContactTerminal from './components/ContactTerminal.vue'
 import scenicBgUrl from '@/assets/img/scenic-background.jpg'
 
-// Map the section names to the imported files
+// ... your existing componentMap and currentSection logic stays exactly the same ...
 const componentMap = {
   'About Me': AboutMe,
   'Experience': Experience,
@@ -80,9 +80,40 @@ const componentMap = {
 
 const portfolioSections = Object.keys(componentMap)
 const currentSection = ref(portfolioSections[0])
-
-// This computed property automatically figures out which component to show
 const currentComponent = computed(() => componentMap[currentSection.value])
+
+// The Scroll Reveal Logic
+let observer = null
+
+onMounted(() => {
+  // Configures the sensor: triggers when 15% of the section is visible
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.15 
+  }
+
+  observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Adds the visible class when scrolled into view
+        entry.target.classList.add('is-visible')
+        
+        // Optional: Stop observing once it's revealed so it stays visible if they scroll up and down
+        observer.unobserve(entry.target) 
+      }
+    })
+  }, observerOptions)
+
+  // Attach the sensor to any element with the 'reveal-on-scroll' class
+  const revealElements = document.querySelectorAll('.reveal-on-scroll')
+  revealElements.forEach(el => observer.observe(el))
+})
+
+// Clean up the sensors if the user navigates away
+onUnmounted(() => {
+  if (observer) observer.disconnect()
+})
 </script>
 
 <style>
@@ -420,6 +451,19 @@ body {
   padding: 100px 50px;
   /* Brings back the velvet plum to match Screen 2 */
   background-color: var(--color-bg-2); 
+}
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(80px); /* Starts 80px lower than its final resting place */
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
+              transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: opacity, transform; /* Optimizes hardware acceleration */
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @media (max-width: 1024px) {

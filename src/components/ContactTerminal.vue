@@ -1,6 +1,6 @@
 <template>
   <div class="section-content terminal-section">
-    <h2>Let's establish a connection and Contact Me</h2>
+    <h2>Establish a connection and Contact Me</h2>
     
     <div class="terminal-casing">
       <div class="terminal-header">
