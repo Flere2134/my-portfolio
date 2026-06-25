@@ -191,7 +191,7 @@ body {
 
 .titles h1 {
   font-family: 'Montserrat', sans-serif;
-  font-size: 6.5rem; /* Massive, commanding name */
+  font-size: 6.5rem; /* Massive, commanding name */ 
   font-weight: 700;
   margin: 0;
   letter-spacing: -2px;
