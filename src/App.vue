@@ -1,5 +1,6 @@
 <template>
   <div class="portfolio-container">
+    <AmbientParticles />
     <header class="hero-section">
       <div 
         class="scenic-overlay" 
@@ -68,6 +69,7 @@ import Projects from './components/Projects.vue'
 import Skills from './components/Skills.vue'
 import ImageSlots from './components/ImageSlots.vue'
 import ContactTerminal from './components/ContactTerminal.vue'
+import AmbientParticles from './components/AmbientParticles.vue'
 import scenicBgUrl from '@/assets/img/scenic-background.jpg'
 
 // ... your existing componentMap and currentSection logic stays exactly the same ...
@@ -183,7 +185,6 @@ body {
   z-index: 0;
 }
 
-/* Ensure the dark green base color is applied over the image */
 .hero-section::before {
   content: '';
   position: absolute;
@@ -191,7 +192,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(7, 25, 28, 0.85); /* Midnight peacock */
+  background-color: rgba(7, 25, 28, 0.85);
   z-index: 1;
 }
 
@@ -200,16 +201,15 @@ body {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 1400px; /* Constrains the maximum width */
-  padding: 0 80px; /* Pulls content away from the edges */
-  z-index: 2; /* Ensures it sits above the background */
+  max-width: 1400px;
+  padding: 0 80px;
+  z-index: 3;
 }
 
-/* All content within the hero sits above the overlays */
 .left-content,
 .right-content {
   z-index: 2;
-  flex: 1; /* Both sides share space equally */
+  flex: 1;
 }
 
 .left-content {
