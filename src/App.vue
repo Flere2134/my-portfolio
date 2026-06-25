@@ -28,7 +28,17 @@
           </a>
         </div>
 
-        <a href="public/PUBLIC-resume.pdf" class="dossier-btn prominent" target="_blank" rel="noopener noreferrer" download>GET MY RESUME</a>
+        <a
+          href="public/PUBLIC-resume.pdf" 
+          class="dossier-btn prominent" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          download
+          @mousemove="handleMagneticHover"
+          @mouseleave="resetMagneticHover"
+        >
+          GET MY RESUME
+        </a>
       </div>
       
       <div class="right-content">
@@ -44,7 +54,7 @@
           @update:section="currentSection = $event" 
         />
         
-        <section class="content-display">
+        <section class="content-display" @mousemove="handleSpotlight">
           <transition name="reel" mode="out-in">
             <component :is="currentComponent" />
           </transition>
@@ -116,6 +126,36 @@ onMounted(() => {
 onUnmounted(() => {
   if (observer) observer.disconnect()
 })
+
+// 1. The Magnetic Button Physics
+const handleMagneticHover = (e) => {
+  const btn = e.currentTarget
+  const rect = btn.getBoundingClientRect()
+  // Calculate cursor distance from the absolute center of the button
+  const x = (e.clientX - rect.left) - (rect.width / 2)
+  const y = (e.clientY - rect.top) - (rect.height / 2)
+  
+  // Pull the button 20% of the distance towards the cursor
+  btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`
+}
+
+const resetMagneticHover = (e) => {
+  const btn = e.currentTarget
+  // Snap back to dead center when the mouse leaves
+  btn.style.transform = 'translate(0px, 0px)'
+}
+
+// 2. The Spotlight Glass Tracking
+const handleSpotlight = (e) => {
+  const card = e.currentTarget
+  const rect = card.getBoundingClientRect()
+  const x = e.clientX - rect.left
+  const y = e.clientY - rect.top
+  
+  // Inject the raw coordinates directly into CSS variables
+  card.style.setProperty('--mouse-x', `${x}px`)
+  card.style.setProperty('--mouse-y', `${y}px`)
+}
 </script>
 
 <style>
@@ -362,18 +402,13 @@ body {
   font-size: 1.1rem; 
   letter-spacing: 3px; 
   align-self: flex-start; 
-  transition: all 0.3s ease;
+  transition: transform 0.1s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s, color 0.3s, box-shadow 0.3s;
 }
 
 .dossier-btn.prominent:hover {
-  /* Fills with that beautiful gold/light brown on hover */
   background-color: var(--color-accent);
-  
-  /* Text turns to your deep dark background color for high contrast */
   color: var(--color-bg-1); 
-  
-  box-shadow: 0 0 30px rgba(195, 155, 87, 0.4); 
-  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(195, 155, 87, 0.4);
 }
 
 /* Screen 2 Styles */
@@ -402,6 +437,35 @@ body {
   
   position: relative; 
   overflow: hidden; 
+}
+
+.content-display::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Uses the JS injected variables, defaulting to center. Uses your signature Turquoise */
+  background: radial-gradient(
+    800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+    rgba(40, 194, 194, 0.08), 
+    transparent 40%
+  );
+  pointer-events: none; /* Ensures the glow doesn't block text highlighting */
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.content-display:hover::before {
+  opacity: 1; /* Fades the spotlight in only when hovered */
+}
+
+/* Ensure the text and components sit cleanly ABOVE the spotlight */
+.content-display > * {
+  position: relative;
+  z-index: 1;
 }
 
 .content-display h2 {
