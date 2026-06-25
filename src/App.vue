@@ -31,7 +31,7 @@
       </div>
       
       <div class="right-content">
-        <img src="./assets/img/profile-photo.jpg" alt="Aaron's Profile" class="profile-photo massive" />
+        <img src="./assets/img/profile-photo.JPG" alt="Aaron's Profile" class="profile-photo massive" />
       </div>
       </div>
     </header>
