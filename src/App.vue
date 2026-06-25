@@ -53,6 +53,9 @@
     <div class="screen-3-bg">
       <ImageSlots />
     </div>
+    <div class="screen-4-bg">
+      <ContactTerminal />
+    </div>
   </div>
 </template>
 
@@ -64,6 +67,7 @@ import Experience from './components/Experience.vue'
 import Projects from './components/Projects.vue'
 import Skills from './components/Skills.vue'
 import ImageSlots from './components/ImageSlots.vue'
+import ContactTerminal from './components/ContactTerminal.vue'
 import scenicBgUrl from '@/assets/img/scenic-background.jpg'
 
 // Map the section names to the imported files
@@ -390,7 +394,7 @@ body {
   transform: translateY(60px); /* Drops out below */
   filter: blur(6px);
 }
-/* Screen 3 Styles */
+
 .screen-3-bg {
   width: 100%;
   min-height: 100vh;
@@ -398,7 +402,17 @@ body {
   align-items: center;
   justify-content: center;
   padding: 100px 50px;
-  /* Reverts back to the midnight peacock to create contrast with Screen 2 */
   background-color: var(--color-bg-1); 
+}
+
+.screen-4-bg {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 50px;
+  /* Brings back the velvet plum to match Screen 2 */
+  background-color: var(--color-bg-2); 
 }
 </style>
