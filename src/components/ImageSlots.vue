@@ -175,4 +175,22 @@ const imageStrip = [...baseImages, ...baseImages]
     text-align: center;
   }
 }
+
+@media (max-width: 768px) {
+  .reels-container {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .reel-window {
+    width: 100%;
+    height: 220px; 
+    max-width: none; 
+  }
+
+  .image-slot {
+    width: 100%;
+    height: 220px;
+  }
+}
 </style>
