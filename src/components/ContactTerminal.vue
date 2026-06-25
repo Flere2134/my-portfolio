@@ -47,16 +47,46 @@ const formData = ref({
 
 const isTransmitting = ref(false)
 
-const executeUplink = () => {
+const executeUplink = async () => {
   isTransmitting.value = true
   
-  // Simulates a network request delay for the terminal aesthetic
-  setTimeout(() => {
-    alert(`SUBMIT SUCCESSFUL. \nData received from: ${formData.value.name}\nI will review your directive shortly.`)
-    // Reset form
-    formData.value = { name: '', email: '', message: '' }
+  try {
+    // Transmits the payload to the serverless email API
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        access_key: 'e9f2740d-c8b0-4486-8a32-5d8f99aab501',
+        // Maps your form data to the email output
+        name: formData.value.name,
+        email: formData.value.email,
+        message: formData.value.message,
+        
+        // Customizes the subject line in your inbox
+        subject: 'SYSTEM ALERT: New Uplink from VIP Portfolio'
+      })
+    })
+
+    const result = await response.json()
+
+    if (result.success) {
+      alert(`UPLINK SUCCESSFUL. \nData received from: ${formData.value.name}\nI will review your directive shortly.`)
+      // Clear the terminal upon successful transmission
+      formData.value = { name: '', email: '', message: '' }
+    } else {
+      alert('UPLINK FAILED. Server rejected the payload.')
+      console.error(result)
+    }
+    
+  } catch (error) {
+    alert('CRITICAL ERROR. Network connection severed.')
+    console.error('Terminal Error:', error)
+  } finally {
     isTransmitting.value = false
-  }, 1500)
+  }
 }
 </script>
 
