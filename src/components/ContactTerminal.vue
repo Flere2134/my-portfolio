@@ -1,6 +1,6 @@
 <template>
   <div class="section-content terminal-section">
-    <h2>Establish a connection and Contact Me</h2>
+    <h2>Connect with Me</h2>
     
     <div class="terminal-casing">
       <div class="terminal-header">
@@ -14,17 +14,17 @@
 
       <form class="terminal-body" @submit.prevent="executeUplink">
         <div class="input-group">
-          <label for="name"><span class="prompt">guest@aaron:~$</span> Enter Your Name</label>
+          <label for="name"><span class="prompt">guest@aaron:~$</span> Enter Name</label>
           <input type="text" id="name" v-model="formData.name" required autocomplete="off" placeholder="John Doe" />
         </div>
 
         <div class="input-group">
-          <label for="email"><span class="prompt">guest@aaron:~$</span> Enter Your Email</label>
+          <label for="email"><span class="prompt">guest@aaron:~$</span> Enter Email</label>
           <input type="email" id="email" v-model="formData.email" required autocomplete="off" placeholder="john.doe@example.com" />
         </div>
 
         <div class="input-group">
-          <label for="message"><span class="prompt">guest@aaron:~$</span> Write Your Message</label>
+          <label for="message"><span class="prompt">guest@aaron:~$</span> Write Message</label>
           <textarea id="message" v-model="formData.message" rows="5" required placeholder="Your message here..."></textarea>
         </div>
 

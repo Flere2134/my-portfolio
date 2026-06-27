@@ -29,15 +29,7 @@
         </div>
 
         <a
-          href="public/PUBLIC-resume.pdf" 
-          class="dossier-btn prominent" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          download
-          @mousemove="handleMagneticHover"
-          @mouseleave="resetMagneticHover"
-        >
-          GET MY RESUME
+          href="PUBLIC-resume.pdf" class="dossier-btn prominent" target="_blank" rel="noopener noreferrer" download="Aaron_resume.pdf" @mousemove="handleMagneticHover" @mouseleave="resetMagneticHover">GET MY RESUME
         </a>
       </div>
       
